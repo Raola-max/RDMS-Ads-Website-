@@ -1,66 +1,42 @@
-// Replace with your real target WhatsApp number (Country code + phone number without leading '+' or spaces)
-const WHATSAPP_PHONE_NUMBER = "2348055825647"; 
+document.addEventListener('DOMContentLoaded', () => {
+  // Smooth scroll handler for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
 
-/**
- * Handles pricing card button selection and smooth scrolling
- */
-function selectPackage(packageName) {
-  const selectElem = document.getElementById("package_selected");
-  if (selectElem) {
-    selectElem.value = packageName;
-    
-    // Trigger smooth focus animation on contact section
-    const contactSection = document.getElementById("contact");
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" });
-    }
-  }
-}
-
-/**
- * Form submission router for WhatsApp integration
- */
-document.getElementById("whatsappForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const packageSelected = document.getElementById("package_selected").value;
-  const userMessage = document.getElementById("message").value.trim();
-
-  // Build clean markdown message payload
-  let payload = `🚀 *NEW LANDING PAGE INQUIRY*\n\n`;
-  payload += `👤 *Name:* ${name}\n`;
-  payload += `📧 *Email:* ${email}\n`;
-  payload += `📱 *Phone:* ${phone}\n`;
-  payload += `💼 *Selected Package:* ${packageSelected}\n`;
-  
-  if (userMessage) {
-    payload += `📝 *Project Scope:* ${userMessage}\n`;
-  }
-
-  // Encode text for web URL safe execution
-  const encodedMessage = encodeURIComponent(payload);
-
-  // Construct target link
-  const whatsappUrl = `https://wa.me/${2348055825647}?text=${encodedMessage}`;
-
-  // Execute deep link redirect
-  window.open(whatsappUrl, "_blank");
-});
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const targetId = this.getAttribute('href');
-    const targetElement = document.querySelector(targetId);
-
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
   });
+
+  // WhatsApp Form Submit Handler
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('clientName').value.trim();
+      const phone = document.getElementById('clientPhone').value.trim();
+      const selectedPackage = document.getElementById('selectedPackage').value;
+      const details = document.getElementById('projectDetails').value.trim();
+
+      const phoneNumber = '2348000000000'; // Replace with your actual WhatsApp phone number
+
+      const message = `Hello Raola Digital,%0A%0A` +
+        `I would like to make an inquiry:%0A` +
+        `*Name:* ${encodeURIComponent(name)}%0A` +
+        `*Phone:* ${encodeURIComponent(phone)}%0A` +
+        `*Package Interest:* ${encodeURIComponent(selectedPackage)}%0A` +
+        `*Project Details:* ${encodeURIComponent(details || 'N/A')}`;
+
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+    });
+  }
 });
